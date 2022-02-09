@@ -1,0 +1,13 @@
+## Interface: 90105
+## Title: Holiday Dungeon Helper
+## Author: Witness
+## Notes: A simple addon allows you to queue and enter holiday dungeons automatically.
+## Version: @project-version@
+## SavedVariables: HolidayDungeonHelperDB
+
+Libs\Libs.xml
+Init.lua
+Data.lua
+Locales.lua
+Option.lua
+Core.lua
