@@ -1,5 +1,6 @@
 local _, ns = ...
 local Addon = ns.Addon
+local L = ns.L
 
 local timeToWait = 3
 
@@ -8,9 +9,15 @@ function Addon:QueueDungeon(dungeonID)
 		SetLFGRoles(true, true, true, true)
 	end
 
-	if self.db.profile.autoQueue then
+	if not self.db.profile.autoQueue then return end
+
+	local mode = GetLFGMode(LE_LFG_CATEGORY_LFD)
+	if mode == "queued" or mode == "listed" or mode == "rolecheck" or mode == "suspended" then
+		Addon:Error(L["You are already in the queue"])
+	else
 		_G.LFDQueueFrame.type = dungeonID
 		_G.LFDQueueFrameFindGroupButton:Click()
+		Addon:Print(QUEUED_FOR_SHORT.." "..GetLFGDungeonInfo(dungeonID))
 	end
 end
 

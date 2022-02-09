@@ -12,4 +12,5 @@ if locale == "zhCN" then
 	L["Love is in the Air"] = "情人节"
 	L["Brewfest"] = "美酒节"
 	L["Hallow's End"] = "万圣节"
+	L["You are already in the queue"] = "你已经在列队中"
 end

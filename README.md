@@ -1,7 +1,6 @@
-# HolidayDungeonHelper
+# Holiday Dungeon Helper
 A simple addon allows you to queue and enter holiday dungeons automatically.
 
 ## Commands:
-/hdh
-
-/holidaydungeonhelper
+* /hdh
+* /holidaydungeonhelper
