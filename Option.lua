@@ -5,9 +5,6 @@ local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local Option = Addon:NewModule("Option", "AceConsole-3.0")
 
-local ipairs = ipairs
-local format = string.format
-
 function Option:Get(key)
 	return Addon.db.profile[key]
 end

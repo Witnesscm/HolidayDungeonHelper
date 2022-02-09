@@ -14,11 +14,9 @@ function Addon:QueueDungeon(dungeonID)
 	end
 end
 
-function Addon:AutoEnterDungeon()
-	if not Addon.dungeonID then return end
-
+function Addon:AutoEnterDungeon(dungeonID)
 	_G.LFGDungeonReadyDialog:HookScript("OnShow", function(self)
-		if _G.LFGDungeonReadyPopup.dungeonID and _G.LFGDungeonReadyPopup.dungeonID == Addon.dungeonID then
+		if _G.LFGDungeonReadyPopup.dungeonID and _G.LFGDungeonReadyPopup.dungeonID == dungeonID then
 			self.enterButton:Click()
 		end
 	end)
@@ -34,12 +32,9 @@ function Addon:OnEnable()
 			end
 		end
 
-		if not self.dungeonID then
-			return
-		end
+		if not self.dungeonID then return end
 
 		local info = ns.HolidayDungeons[self.dungeonID]
-
 		if not self.db.profile[info.name] then return end
 
 		local doneToday = GetLFGDungeonRewards(self.dungeonID)
@@ -47,7 +42,7 @@ function Addon:OnEnable()
 			local rewardID = select(6, GetLFGDungeonRewardInfo(self.dungeonID, 1))
 			if rewardID and rewardID == info.rewardID then
 				self:QueueDungeon(self.dungeonID)
-				self:AutoEnterDungeon()
+				self:AutoEnterDungeon(self.dungeonID)
 				self:RegisterEvent("LFG_COMPLETION_REWARD")
 			end
 		end

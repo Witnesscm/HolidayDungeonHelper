@@ -1,9 +1,11 @@
 ## Interface: 90105
 ## Title: Holiday Dungeon Helper
 ## Author: Witness
-## Notes: A simple addon allows you to queue and enter holiday dungeons automatically.
+## Notes: A simple addon allows you to queue and enter holiday dungeons automatically. (/hdh)
 ## Version: @project-version@
 ## SavedVariables: HolidayDungeonHelperDB
+## X-Curse-Project-ID: 577735
+## X-Wago-ID: anKWjW6E
 
 Libs\Libs.xml
 Init.lua
