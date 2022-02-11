@@ -2,8 +2,6 @@ local _, ns = ...
 local Addon = ns.Addon
 local L = ns.L
 
-local timeToWait = 3
-
 function Addon:QueueDungeon(dungeonID)
 	if self.db.profile.allRoles then
 		SetLFGRoles(true, true, true, true)
@@ -11,8 +9,7 @@ function Addon:QueueDungeon(dungeonID)
 
 	if not self.db.profile.autoQueue then return end
 
-	local mode = GetLFGMode(LE_LFG_CATEGORY_LFD)
-	if mode == "queued" or mode == "listed" or mode == "rolecheck" or mode == "suspended" then
+	if GetLFGMode(LE_LFG_CATEGORY_LFD) then
 		Addon:Error(L["You are already in the queue"])
 	else
 		_G.LFDQueueFrame.type = dungeonID
@@ -21,39 +18,38 @@ function Addon:QueueDungeon(dungeonID)
 	end
 end
 
-function Addon:AutoEnterDungeon(dungeonID)
+function Addon:OnEnable()
 	_G.LFGDungeonReadyDialog:HookScript("OnShow", function(self)
-		if _G.LFGDungeonReadyPopup.dungeonID and _G.LFGDungeonReadyPopup.dungeonID == dungeonID then
+		if _G.LFGDungeonReadyPopup.dungeonID and Addon.dungeonID and (_G.LFGDungeonReadyPopup.dungeonID == Addon.dungeonID) then
 			self.enterButton:Click()
 		end
 	end)
+
+	self:RegisterEvent("LFG_UPDATE_RANDOM_INFO")
 end
 
-function Addon:OnEnable()
-	C_Timer.After(timeToWait, function()
-		for i = 1, GetNumRandomDungeons() do
-			local id = GetLFGRandomDungeonInfo(i)
-			if id and ns.HolidayDungeons[id] then
-				self.dungeonID = id
-				break
-			end
+function Addon:LFG_UPDATE_RANDOM_INFO(event)
+	for i = 1, GetNumRandomDungeons() do
+		local id = GetLFGRandomDungeonInfo(i)
+		if id and ns.HolidayDungeons[id] then
+			self.dungeonID = id
+			break
 		end
+	end
 
-		if not self.dungeonID then return end
-
-		local info = ns.HolidayDungeons[self.dungeonID]
-		if not self.db.profile[info.name] then return end
-
+	local info = self.dungeonID and ns.HolidayDungeons[self.dungeonID]
+	if info and self.db.profile[info.name] then
 		local doneToday = GetLFGDungeonRewards(self.dungeonID)
 		if not doneToday then
 			local rewardID = select(6, GetLFGDungeonRewardInfo(self.dungeonID, 1))
 			if rewardID and rewardID == info.rewardID then
 				self:QueueDungeon(self.dungeonID)
-				self:AutoEnterDungeon(self.dungeonID)
 				self:RegisterEvent("LFG_COMPLETION_REWARD")
 			end
 		end
-	end)
+	end
+
+	self:UnregisterEvent(event)
 end
 
 function Addon:LFG_COMPLETION_REWARD(event)
