@@ -16,8 +16,9 @@ local defaults = {
 	profile = {
 		autoQueue = true,
 		allRoles = true,
+		autoConfirm = true,
 		autoLeave = true,
-		autoLeaveDelay = 0,
+		autoLeaveDelay = 10,
 	}
 }
 
@@ -30,9 +31,9 @@ function Addon:OnInitialize()
 end
 
 function Addon:Print(...)
-	_G.DEFAULT_CHAT_FRAME:AddMessage("|cFF70B8FF"..ADDON..":|r " .. format(...))
+	_G.DEFAULT_CHAT_FRAME:AddMessage("|cff99ccff"..ADDON..":|r " .. format(...))
 end
 
 function Addon:Error(...)
-	_G.UIErrorsFrame:AddMessage("|cFF70B8FF"..format(...).."|r ")
+	_G.UIErrorsFrame:AddMessage("|cff99ccff"..format(...).."|r ")
 end

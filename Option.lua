@@ -34,18 +34,24 @@ ns.Options = {
 					name = L["Auto Queue"],
 					type = "toggle",
 				},
-				allRoles = {
+				autoConfirm = {
 					order = 2,
-					name = L["All LFD Roles"],
+					name = L["Auto Confirm"],
 					type = "toggle",
 				},
-				autoLeave = {
+				allRoles = {
 					order = 3,
+					name = L["All LFD Roles"],
+					type = "toggle",
+					width = "full",
+				},
+				autoLeave = {
+					order = 4,
 					name = L["Auto Leave Party"],
 					type = "toggle",
 				},
 				autoLeaveDelay = {
-					order = 4,
+					order = 5,
 					name = L["Leave Party Delay"],
 					type = "range",
 					min = 0,

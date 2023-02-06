@@ -14,13 +14,21 @@ function Addon:QueueDungeon(dungeonID)
 	else
 		_G.LFDQueueFrame.type = dungeonID
 		_G.LFDQueueFrameFindGroupButton:Click()
-		Addon:Print(QUEUED_FOR_SHORT.." "..GetLFGDungeonInfo(dungeonID))
+
+		local name = GetLFGDungeonInfo(dungeonID)
+		if name then
+			Addon:Print(format(QUEUED_FOR_SHORT.."%s", name))
+		end
 	end
 end
 
 function Addon:OnEnable()
 	_G.LFGDungeonReadyDialog:HookScript("OnShow", function(self)
-		if _G.LFGDungeonReadyPopup.dungeonID and Addon.dungeonID and (_G.LFGDungeonReadyPopup.dungeonID == Addon.dungeonID) then
+		if _G.LFGDungeonReadyPopup.dungeonID and Addon.dungeonID and (_G.LFGDungeonReadyPopup.dungeonID == Addon.dungeonID) and Addon.db.profile.autoConfirm then
+			local role = select(7, GetLFGProposal())
+			if role then
+				Addon:Error(format(YOUR_ROLE..": %s", _G[role]))
+			end
 			self.enterButton:Click()
 		end
 	end)
